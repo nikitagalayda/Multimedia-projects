@@ -3,16 +3,12 @@ function [N1, N2] = epd(signal, fs, energy, zcr)
 %   Detailed explanation goes here
     ms_100 = fs/2;
     
-    signal_100 = signal(1:ms_100); % first 100ms of the signal
-    signal_100_end = signal(length(signal)-ms_100:length(signal));
+    signal_100_end = signal(length(signal)-ms_100:length(signal));% last 100ms of the signal
     
     AE = mean(signal_100_end.^2);
-    %AE_end = max(signal_100_end.^2);
-    ZCR = 10;%frame_zcr(signal_100, ms_100);
+    ZCR = 10;
     LTU = 20*AE;
-    %LTU_end = 5*AE_end;
     LTL = AE;
-    %LTL_end = 2*AE;
     LZTC = 0.8*ZCR;
     energy_points = signal.^2;
     

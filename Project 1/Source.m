@@ -4,22 +4,12 @@ fileName = 'MM_Sample_1.m4a';
 N = length(y);
 fs_10ms = fs/100;
 
-fprintf('Information of the sound file "%s":\n', fileName);
-fprintf('Duration = %g seconds\n', length(y)/fs);
-fprintf('Sampling rate = %g samples/second\n', fs);
-fprintf('Total number of samples %d\n', length(y));
-%fprintf("%s\n", class(y))
-
-%m = median(buffer(y, 900));
-
 %---------------WAVEFORM-------------------
 subplot(5, 1, 1)
 time_wave=(1:length(y))/fs_10ms;
-%plot(time_wave, y);
-plot(y)
-line([N-24000 N-24000], [min(y) max(y)], 'Color', 'red');
-line([24000 24000], [min(y) max(y)], 'Color', 'red');
+plot(time_wave, y);
 title(['Waveform']);
+axis tight;
 
 %---------------ENERGY---------------------
 % Window set to 960 for 200ms windows
@@ -31,6 +21,7 @@ time_energy = (1:length(energy))/fs_10ms * energy_window_size;
 subplot(5, 1, 2)
 plot(time_energy, energy)
 title(['Energy']);
+axis tight;
 
 %---------------ZCR------------------------
 zcr_window_size = 960;
@@ -38,7 +29,8 @@ zcr = frame_zcr(y, zcr_window_size);
 time_zcr = (1:length(zcr))/fs_10ms * zcr_window_size;
 subplot(5, 1, 3)
 plot(time_zcr, zcr)
-title(['ZCR']);
+title(['Zero-crossing rate']);
+axis tight;
 
 %---------------PITCH----------------------
 pitch_window_size = 1200;
@@ -47,16 +39,19 @@ time_pitch = (1:length(pitch_contour))/fs_10ms * pitch_window_size;
 subplot(5, 1, 4)
 plot(time_pitch, pitch_contour)
 title(['Pitch']);
+axis tight;
 
 %---------------EPD------------------------
 [N1, N2] = epd(y, fs, energy, zcr);
+
+N1 = N1/fs_10ms;
+N2 = N2/fs_10ms;
+
 time_energy = (1:length(energy))/fs_10ms * energy_window_size;
-time_wave=(1:length(y))/fs_10ms;
 subplot(5, 1, 5)
-%plot(time_wave, y);
-plot(y)
-title(['EPD']);
+time_wave=(1:length(y))/fs_10ms;
+plot(time_wave, y);
+title(['End point detection']);
+axis tight;
 line([N2 N2], [min(y) max(y)], 'Color', 'red');
 line([N1 N1], [min(y) max(y)], 'Color', 'red');
-% line([N1*energy_window_size/fs_10ms N1*energy_window_size/fs_10ms], [min(y) max(y)], 'Color', 'red');
-% line([N2*energy_window_size/fs_10ms N2*energy_window_size/fs_10ms], [min(y) max(y)], 'Color', 'red');

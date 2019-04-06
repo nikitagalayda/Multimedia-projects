@@ -13,7 +13,6 @@ function pitch_contour = pitch_cont(fileName, pitch_window_size)
     
     frame_Autocorrelation = [];
     pitch_contour = [];
-    %­pºâautocorrelation
     f_min=40;%lower bound 40Hz
     f_max=1100;%upper bound 1100Hz
     p_max=ceil(fs/f_min);%the index of 40Hz
